@@ -29,7 +29,6 @@ Run Unit Test:
 ```
 vendor/bin/phpunit
 ```
-
-Please let me know if You have any problem
+All tests and codes has been checked anyway Please let me know if You have any problem.
 
 omidrafati67@gmail.com
