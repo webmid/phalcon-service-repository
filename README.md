@@ -29,6 +29,24 @@ Run Unit Test:
 ```
 vendor/bin/phpunit
 ```
+
+Add new service:
+
+Add this code in public/index.php
+
+```php
+$di->set('postServiceRepo', function () {
+    return new MyApp\Repos\ServiceRepository(new \MyApp\Models\User());
+});
+```
+
+Then in controller:
+
+```php
+ $postRepo = $this->di->getPostServiceRepo();
+ $users = $postRepo->all()->toArray();
+```
+
 All tests and codes has been checked anyway Please let me know if You have any problem.
 
 omidrafati67@gmail.com
