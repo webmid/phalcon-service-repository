@@ -36,7 +36,7 @@ Add this code in public/index.php
 
 ```php
 $di->set('postServiceRepo', function () {
-    return new MyApp\Repos\ServiceRepository(new \MyApp\Models\User());
+    return new MyApp\Repos\ServiceRepository(new \MyApp\Models\Post());
 });
 ```
 
