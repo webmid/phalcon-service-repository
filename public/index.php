@@ -92,7 +92,7 @@ $di->setShared('modelsMetadata', function () {
 });
 
 $di->set('serviceRepo', function () {
-    return new MyApp\Repos\ServiceRepository(new \MyApp\Models\User());
+    return new \PhalconRepositories\ServiceRepository(new \MyApp\Models\User());
 });
 
 // Registering a Http\Response
@@ -112,7 +112,6 @@ $di->set(
 
 try {
     include APP_PATH . '/config/services.php';
-
     $application = new \Phalcon\Mvc\Application($di);
     //echo $application->handle($_SERVER['REQUEST_URI'])->getContent();
     echo $application->handle($_GET['_url'] ?? '/')->getContent();

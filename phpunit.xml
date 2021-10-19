@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
-         bootstrap="tests\helpers\TestHelper.php"
+         bootstrap="app\repositories\ServiceRepository.php"
          backupStaticAttributes="false"
          verbose="true"
          colors="true"

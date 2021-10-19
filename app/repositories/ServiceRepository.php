@@ -6,13 +6,17 @@ use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-class AbstractRepository implements RepositoryInterface
+class ServiceRepository implements RepositoryInterface
 {
     /**
      * @var Model
      */
     protected $model;
 
+    public function __construct(Model $model)
+    {
+        $this->model = $model;
+    }
     /**
      * Return all records.
      *

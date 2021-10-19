@@ -4,7 +4,7 @@
 namespace Unit;
 
 use MyApp\Models\User;
-use PhalconRepositories\AbstractRepository;
+use PhalconRepositories;
 use Tests\Unit\AbstractUnitTest;
 
 
@@ -256,11 +256,9 @@ class RepositoryTest extends AbstractUnitTest
         return $users;
     }
 }
-class UsersRepo extends AbstractRepository
+class UsersRepo extends PhalconRepositories\ServiceRepository
 {
-    /**
-     * @var Users
-     */
+
     protected $model;
 
     function __construct()
