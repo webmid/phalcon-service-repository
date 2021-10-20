@@ -272,21 +272,7 @@ class ServiceRepository implements RepositoryInterface
 
         return $query->execute();
     }
-
-
-    /**
-     * Return all results that have a required relationship with input constraints.
-     *
-     * @param  string $relation
-     * @param  array $where
-     * @param  array $whereHas
-     *
-     * @return ResultsetInterface
-     */
-    public function whereHas($relation, array $where = [], array $whereHas = [])
-    {
-        // TODO
-    }
+    
 
     /**
      * Get ordered results by Page.
@@ -416,41 +402,17 @@ class ServiceRepository implements RepositoryInterface
      */
     public function updateBy(array $where, array $inputs)
     {
-        // TODO
-    }
-
-    /**
-     * Update the record matching input parameters.
-     * If no record is found, create a new one.
-     *
-     * @param array $where
-     * @param array $inputs
-     *
-     * @throws \RuntimeException
-     * @throws \UnexpectedValueException
-     *
-     * @return \Phalcon\Mvc\Model
-     */
-    public function updateOrCreateBy(array $where, array $inputs = [])
-    {
-        /*
         $inputs = $this->purifyInputs($inputs);
-
-        // TODO Add the $where condition!!
-
-        $model = clone $this->model;
-        $model->assign($inputs);
-
-        $result = $model->save($inputs);
-
-        if(!$result) {
+        $model = $this->getBy($where);
+        $result = $model->update($inputs);
+        if (!$result) {
             $errorMessages = implode('. ', $model->getMessages());
-            throw new \UnexpectedValueException("Caught UnexpectedValueException in ".__METHOD__.' at line '.__LINE__.': Model cannot be saved nor updated. Error messages: ' . $errorMessages);
+            throw new \UnexpectedValueException("Caught UnexpectedValueException in " . __METHOD__ . ' at line ' . __LINE__ . ': Model cannot be updated. Error messages: ' . $errorMessages);
         }
 
         return $model;
-        */
     }
+
 
     /**
      * Delete input record.

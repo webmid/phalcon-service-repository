@@ -179,6 +179,14 @@ class RepositoryTest extends AbstractUnitTest
         $this->assertEquals('Family 3', $user->getLastname());
     }
 
+    public function testUpdateBy()
+    {
+        $usersRepo = new UsersRepo();
+        $usersRepo->updateBy(['lastname' => 'Family 3'], ['lastname' => 'Family 2']);
+        $user = $usersRepo->getBy(['lastname' => 'Family 2'])->toArray()[0];
+        $this->assertEquals('Family 2', $user['lastname']);
+    }
+
     /**
      * @expectedException \PhalconRepositories\ModelNotFoundException
      */
