@@ -6,6 +6,11 @@ use Phalcon\Mvc\Controller;
 
 class UserController extends Controller
 {
+    public $userRepo;
+    public function initialize()
+    {
+        $this->userRepo = $this->di->getServiceRepo();
+    }
     /**
      * @Route(
      *     '/user/show/{id}',
@@ -15,11 +20,12 @@ class UserController extends Controller
      */
     public function indexAction()
     {
-        $userRepo = $this->di->getServiceRepo();
-        $users = $userRepo->all()->toArray();
-        return $this->response
-            ->setJsonContent($users)
-            ->send();
+        try {
+            $users = $this->userRepo->all()->toArray();
+        }catch (\Exception $e) {
+            return jsonMessage(false, $e->getMessage());
+        }
+        return jsonResponse(true, $users);
     }
     /**
      * @Route(
@@ -30,15 +36,16 @@ class UserController extends Controller
      */
     public function showAction($id)
     {
-        $userRepo= $this->di->getServiceRepo();
         $selectUser = [];
-        $user = $userRepo->find($id);
+        try {
+            $user = $this->userRepo->find($id);
+        }catch (\Exception $e) {
+            return jsonMessage(false, $e->getMessage());
+        }
         if($user) {
             $selectUser[] = $user;
         }
-        return $this->response
-            ->setJsonContent($selectUser)
-            ->send();
+        return jsonResponse(true, $selectUser);
 
     }
     /**
@@ -51,27 +58,17 @@ class UserController extends Controller
     public function addAction()
     {
         $data = json_decode($this->request->getRawBody());
-        $userRepo= $this->di->getServiceRepo();
 
         try {
-            $userRepo->create([
+            $this->userRepo->create([
                 'name' => $data->name,
                 'lastname' => $data->lastname,
                 'mobile' => $data->mobile
             ]);
-            $array = array(
-                'success' => true,
-                'message' => 'user added successfully'
-            );
+            return jsonMessage(true, 'user added successfully');
         }catch (\Exception $e) {
-            $array = array(
-                'success' => false,
-                'message' => $e->getMessage()
-            );
+            return jsonMessage(false, $e->getMessage());
         }
-        return $this->response
-            ->setJsonContent($array)
-            ->send();
 
     }
     /**
@@ -84,24 +81,13 @@ class UserController extends Controller
     public function updateAction()
     {
         $data = json_decode($this->request->getRawBody(), true);
-        $userRepo= $this->di->getServiceRepo();
         if(!isset($data['id']) || $data['id'] =='' || !is_int($data['id'])) {
-            return $this->response
-                ->setJsonContent(array(
-                    'success' => false,
-                    'message' => 'the field id is required'
-                ))
-                ->send();
+            return jsonMessage(false, 'the field id is required');
         }
         $id = $data['id'];
-        $user = $userRepo->find($id);
+        $user = $this->userRepo->find($id);
         if(!$user) {
-            return $this->response
-                ->setJsonContent(array(
-                    'success' => false,
-                    'message' => 'user is not exist'
-                ))
-                ->send();
+            return jsonMessage(false, 'user is not exist');
         }
         foreach ($data as $key=>$value) {
             if($key == 'id') {
@@ -109,20 +95,12 @@ class UserController extends Controller
             }
         }
         try {
-            $userRepo->updateById($id,$data);
-            $array = array(
-                'success' => true,
-                'message' => 'user updated successfully'
-            );
+            $this->userRepo->updateById($id,$data);
+            return jsonMessage(true, 'user updated successfully');
+
         }catch (\Exception $e) {
-            $array = array(
-                'success' => false,
-                'message' => $e->getMessage()
-            );
+            return jsonMessage(false, $e->getMessage());
         }
-        return $this->response
-            ->setJsonContent($array)
-            ->send();
 
     }
     /**
@@ -135,41 +113,20 @@ class UserController extends Controller
     public function deleteAction()
     {
         $data = json_decode($this->request->getRawBody());
-        $userRepo= $this->di->getServiceRepo();
         if(!isset($data->id) || $data->id =='' || !is_int($data->id)) {
-            return $this->response
-                ->setJsonContent(array(
-                    'success' => false,
-                    'message' => 'the field id is required'
-                ))
-                ->send();
+            return jsonMessage(false, 'the field id is required');
         }
         $id = $data->id;
-        $user = $userRepo->find($id);
+        $user = $this->userRepo->find($id);
         if(!$user) {
-            return $this->response
-                ->setJsonContent(array(
-                    'success' => false,
-                    'message' => 'user is not exist'
-                ))
-                ->send();
+            return jsonMessage(false, 'user is not exist');
         }
-
         try {
-            $userRepo->destroy($id);
-            $array = array(
-                'success' => true,
-                'message' => 'user deleted successfully'
-            );
+            $this->userRepo->destroy($id);
+            return jsonMessage(true, 'user deleted successfully');
         }catch (\Exception $e) {
-            $array = array(
-                'success' => false,
-                'message' => $e->getMessage()
-            );
+            return jsonMessage(false, $e->getMessage());
         }
-        return $this->response
-            ->setJsonContent($array)
-            ->send();
 
     }
 

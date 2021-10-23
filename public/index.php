@@ -112,6 +112,7 @@ $di->set(
 
 try {
     include APP_PATH . '/config/services.php';
+    include APP_PATH . '/helper.php';
     $application = new \Phalcon\Mvc\Application($di);
     //echo $application->handle($_SERVER['REQUEST_URI'])->getContent();
     echo $application->handle($_GET['_url'] ?? '/')->getContent();
