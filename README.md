@@ -1,6 +1,8 @@
 # Description
 
-please note that I developed this assessment in windows so after install, You may need change some config in public/index.php or service.php or config.php
+In this repository we learn that how to create service layer between database and controller in Phalcon framework.
+
+After install, You may need change some config in public/index.php or service.php or config.php
 
 
 
@@ -47,6 +49,3 @@ Then in controller:
  $posts = $postRepo->all()->toArray();
 ```
 
-All tests and codes has been checked anyway Please let me know if You have any problem.
-
-omidrafati67@gmail.com
